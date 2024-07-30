@@ -5,13 +5,13 @@ const authorizeManager = (req, res, next) => {
     next();
 };
 const authorizeQA = (req, res, next) => {
-    if (req.user.user_type !== 'manager') {
+    if (req.user.user_type !== 'qa') {
         return res.sendStatus(403); // Forbidden
     }
     next();
 };
 const authorizeDeveloper = (req, res, next) => {
-    if (req.user.user_type !== 'manager') {
+    if (req.user.user_type !== 'developer') {
         return res.sendStatus(403); // Forbidden
     }
     next();

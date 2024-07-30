@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const bugController = require('../controllers/BugController');
-const { authenticateToken } = require('../Auth/Auth');
-
+const bugController = require('../App/Bug/BugController');
+const AuthMiddleware = require('../middleware/Auth');
 router.get('/', bugController.getAllBugs);
 router.get('/:id', bugController.getBugById);
-router.post('/', bugController.createBug);
-router.patch('/:id', bugController.updateBug);
-router.delete('/:id', bugController.deleteBug);
-router.delete('/', bugController.deleteAllBugs);
+router.post('/',AuthMiddleware.authorizeQA ,bugController.createBug);
+router.patch('/:id',AuthMiddleware.authorizeQA, bugController.updateBug);
+router.delete('/:id',AuthMiddleware.authorizeQA ,bugController.deleteBug);
+router.delete('/', AuthMiddleware.authorizeQA,bugController.deleteAllBugs);
 
 module.exports = router;

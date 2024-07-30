@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const projectAssignmentController = require('../controllers/ProjectAssignController');
+const projectAssignmentController = require('../App/ProjectAssignment/ProjectAssignController');
 
 router.get('/', projectAssignmentController.getAllProjectAssignments);
 router.get('/:id', projectAssignmentController.getProjectAssignmentById);

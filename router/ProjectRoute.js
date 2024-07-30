@@ -1,14 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const projectController = require('../controllers/ProjectController');
-const { authenticateToken } = require('../Auth/Auth');
-const { authorizeManager } = require('../Auth/Authorize');
-
+const projectController = require('../App/Project/ProjectController');
+const AuthMiddleware = require('../middleware/Auth');
 router.get('/', projectController.getAllProjects);
-router.get('/:id', projectController.getProjectById);
-router.post('/', authenticateToken, authorizeManager, projectController.createProject);
-router.patch('/:id', authenticateToken, authorizeManager, projectController.updateProject);
-router.delete('/:id', authenticateToken, authorizeManager, projectController.deleteProject);
-router.delete('/', authenticateToken, authorizeManager, projectController.deleteAllProjects);
+router.get('/id/:id', projectController.getProjectById); // Changed to /id/:id
+router.get('/name/:name', projectController.getProjectsByName); // Changed to /name/:name
+router.post('/', AuthMiddleware.authorizeManager,projectController.createProject);
+router.patch('/:id', AuthMiddleware.authorizeManager,AuthMiddleware.authorizeManager ,projectController.updateProject);
+router.delete('/:id', AuthMiddleware.authorizeManager, AuthMiddleware.authorizeManager,projectController.deleteProject);
 
 module.exports = router;
