@@ -118,6 +118,30 @@ class ProjectController {
             });
         }
     }
+    static async AssignQAToProject(req,res){
+        try {
+            const deleted = await ProjectManager.AssignQAToProject(req);
+            res.status(ErrorCodes.SUCCESS).send({
+                message: `${deleted} QA Assigned to Project!`
+            });
+        } catch (error) {
+            res.status(ErrorCodes.INTERNAL_SERVER_ERROR).send({
+                message: error.message || ProjectError.MESSAGES.PROJECTS_DELETION_FAILED
+            });
+        }
+    }
+    static async AssigndevToProject(req,res){
+        try {
+            const deleted = await ProjectManager.AssigndevToProject(req);
+            res.status(ErrorCodes.SUCCESS).send({
+                message: `${deleted} Dev Assigned to Projecr!`
+            });
+        } catch (error) {
+            res.status(ErrorCodes.INTERNAL_SERVER_ERROR).send({
+                message: error.message || ProjectError.MESSAGES.PROJECTS_DELETION_FAILED
+            });
+        }
+    }
 }
 
 module.exports = ProjectController;

@@ -9,6 +9,10 @@ class BugUtility {
     static validateBugId(id) {
         Validator.validateId(id);
     }
+    static CheckBodyhasStatusOnly(body){
+        Validator.CheckBodyhasStatusOnly(body)
+    }
+    
 }
 
 module.exports = BugUtility;

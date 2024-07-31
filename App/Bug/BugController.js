@@ -96,6 +96,17 @@ class BugController {
             });
         }
     }
+    static async UpdateStatusofBug(req,res){
+        try{
+            const updated = await BugManager.UpdateStatusofBug(req.params.id,req.body);
+            res.status(ErrorCodes.SUCCESS).send({ message: `${updated} Updated state successfully!` });
+
+        }catch(error){
+            res.status(ErrorCodes.INTERNAL_SERVER_ERROR).send({
+                message: error.message || BugError.MESSAGES.SOMETHING_WENT_WRONG
+            });
+    }
+}
 }
 
 module.exports = BugController;

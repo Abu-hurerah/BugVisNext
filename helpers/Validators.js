@@ -19,6 +19,25 @@ class Validator {
             throw new Error("Invalid email format");
         }
     }
+    static CheckBodyHasStatusOnly(body) {
+        // Check if 'status' key is present
+        if (!body.hasOwnProperty('status')) {
+            throw new Error("Missing required field: status");
+        }
+
+        // Get all keys from the body
+        const keys = Object.keys(body);
+
+        // Check if there are any additional keys
+        if (keys.length > 1) {
+            throw new Error("Only 'status' field is allowed in the request body");
+        }
+
+        // Optionally, validate the value of 'status' if you need to enforce specific values
+        if (!['active', 'inactive', 'pending'].includes(body.status)) {
+            throw new Error("Invalid status value. Allowed values are 'active', 'inactive', 'pending'.");
+        }
+    }
 
 }
 

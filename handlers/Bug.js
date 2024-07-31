@@ -25,6 +25,9 @@ class BugHandler {
     static async deleteAllBugs() {
         return Bug.destroy({ where: {}, truncate: true });
     }
+    static async updateStatus(id,body){
+        return Bug.update(body,{where:{bug_id:id}})
+    }
 }
 
 module.exports = BugHandler;

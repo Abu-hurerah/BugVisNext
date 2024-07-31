@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { sequelize } = require('./helpers/database'); // Ensure the path is correct
 const app = express();
+const cors = require('cors');
 
 // Routes
 const UserRouter = require('./router/UserRoute');
@@ -12,6 +13,11 @@ const BugRoute = require('./router/BugRoute');
 // Middleware to parse body of HTTP requests
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors({
+    origin: 'http://localhost:8084', // Allow this origin to access the resources
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'], // Allowed request methods
+    credentials: true // Allow credentials (cookies) to be sent with requests
+}));
 
 // Database synchronization
 sequelize.sync()

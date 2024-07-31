@@ -1,11 +1,12 @@
 const express = require('express');
+const userController = require('../App/User/UserController');
 const router = express.Router();
-const userController = require('../App/User/UserController')
+
 // Retrieve all users
 router.get('/', userController.getAllUsers);
 
-// Retrieve users by name - Assuming 'name' is a unique identifier or partial name filter
-router.get('/:name', userController.getUsersByName);
+// Retrieve a user by name
+router.get('/name/:name', userController.getUsersByName);
 
 // User sign-up
 router.post('/signup', userController.createUser);
@@ -16,7 +17,7 @@ router.post('/login', userController.loginUser);
 // Update user details
 router.patch('/:id', userController.updateUser);
 
-// Delete user - assuming deletion is by token and not by id in the URL
-router.delete('/', userController.deleteUser);
+// Delete user
+router.delete('/:id', userController.deleteUser);
 
 module.exports = router;

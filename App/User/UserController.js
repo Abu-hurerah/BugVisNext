@@ -48,7 +48,7 @@ class UserController {
     static async loginUser(req, res) {
         try {
             const { email, password } = req.body;
-            console.log(email,password)
+            console.log("Email",email)
             const { user, token } = await UserManager.loginUser(email, password);
             res.status(ErrorCodes.SUCCESS).json({ user, token });
         } catch (error) {

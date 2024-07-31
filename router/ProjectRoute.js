@@ -8,5 +8,10 @@ router.get('/name/:name', projectController.getProjectsByName); // Changed to /n
 router.post('/', AuthMiddleware.authorizeManager,projectController.createProject);
 router.patch('/:id', AuthMiddleware.authorizeManager,AuthMiddleware.authorizeManager ,projectController.updateProject);
 router.delete('/:id', AuthMiddleware.authorizeManager, AuthMiddleware.authorizeManager,projectController.deleteProject);
+router.post('/Asisgn/QA/:id', AuthMiddleware.authorizeManager, AuthMiddleware.authorizeAssignedProject,projectController.AssignQAToProject)
+router.post('/Asisgn/dev/:id', AuthMiddleware.authorizeManager, AuthMiddleware.authorizeAssignedProject,projectController.AssigndevToProject)
+
+
+
 
 module.exports = router;

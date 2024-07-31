@@ -52,6 +52,13 @@ class ProjectManager {
     static async deleteAllProjects() {
         return await ProjectHandler.deleteAllProjects();
     }
+    static async AssignQAToProject(req){
+        return await ProjectHandler.AssignQAToProject(req);
+    }
+    static async AssigndevToProject(req){
+        return await ProjectHandler.AssigndevToProject(req);
+    }
+    
 }
 
 module.exports = ProjectManager;
