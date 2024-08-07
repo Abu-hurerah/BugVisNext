@@ -3,9 +3,14 @@ const { User } = require("../models/index");
 const bcrypt = require("bcrypt");
 const {Sequelize} = require('sequelize')
 class UserHandler {
-    static async findAllUsers() {
-        return User.findAll();
+    static async findAllUsers(role) {
+        return User.findAll({
+            where: {
+                user_type: role
+            }
+        });
     }
+    
 
     static async findUsersByName(nameSubstring) {
         return User.findAll({

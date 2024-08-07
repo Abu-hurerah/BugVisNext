@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         key: 'user_id'
       }
     },
+    desc:{
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     qa_ids: {
       type: DataTypes.JSON,
       allowNull: true,

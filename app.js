@@ -14,7 +14,7 @@ const BugRoute = require('./router/BugRoute');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({
-    origin: 'http://localhost:8084', // Allow this origin to access the resources
+    origin: 'http://localhost:8081', // Allow this origin to access the resources
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'], // Allowed request methods
     credentials: true // Allow credentials (cookies) to be sent with requests
 }));

@@ -11,7 +11,8 @@ const ErrorCodes = Object.freeze({
   REASON: {
     REQUEST_TIME_OUT: 'requestTimeOut',
     FILE_CORRUPTED: 'fileCorrupted'
-  }
+  },
+  NO_MATCH: 202,
 
 });
 

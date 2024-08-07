@@ -9,8 +9,9 @@ const {
 const jwt = require('jsonwebtoken')
 class UserController {
     static async getAllUsers(req, res) {
+        const { role } = req.params;
         try {
-            const users = await UserManager.findAllUsers();
+            const users = await UserManager.findAllUsers(role);
             res.status(ErrorCodes.SUCCESS).json(users);
         } catch (error) {
             res.status(ErrorCodes.INTERNAL_SERVER_ERROR).send({

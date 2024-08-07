@@ -4,8 +4,8 @@ const UserUtility = require('../../Utilities/User');
 const jwt = require("jsonwebtoken");
 const {AUTH_SECRET_KEY,AUTH_EXPIRE_TIME} = require('../../config/AuthKeys')
 class UserManager {
-    static async findAllUsers() {
-        return await UserHandler.findAllUsers();
+    static async findAllUsers(role) {
+        return UserHandler.findAllUsers(role);
     }
 
     static async findUsersByName(nameSubstring) {

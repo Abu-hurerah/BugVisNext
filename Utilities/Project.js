@@ -1,4 +1,5 @@
 // ProjectUtility.js
+const ProjectHandler = require('../handlers/Project');
 const Validator = require('../helpers/Validators');
 
 class ProjectUtility {
@@ -8,6 +9,9 @@ class ProjectUtility {
 
     static validateProjectId(id) {
         Validator.validateId(id);
+    }
+    static ValidateExistingProject(name){
+         return ProjectHandler.ValidateExistingProject(name)
     }
 }
 

@@ -10,7 +10,7 @@ router.patch('/:id', AuthMiddleware.authorizeManager,AuthMiddleware.authorizeMan
 router.delete('/:id', AuthMiddleware.authorizeManager, AuthMiddleware.authorizeManager,projectController.deleteProject);
 router.post('/Asisgn/QA/:id', AuthMiddleware.authorizeManager, AuthMiddleware.authorizeAssignedProject,projectController.AssignQAToProject)
 router.post('/Asisgn/dev/:id', AuthMiddleware.authorizeManager, AuthMiddleware.authorizeAssignedProject,projectController.AssigndevToProject)
-
+router.get('/task/:id',projectController.gettaskbyproject)
 
 
 
