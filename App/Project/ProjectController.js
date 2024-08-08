@@ -95,7 +95,6 @@ class ProjectController {
 
     static async createProject(req, res) {
         try {
-            console.log("Request Body: ",req.body);
             const newProject = await ProjectManager.createProject(req,res);
             res.status(ErrorCodes.SUCCESS).json(newProject);
         } catch (error) {
@@ -108,8 +107,7 @@ class ProjectController {
     static async updateProject(req, res) {
         try {
             const updated = await ProjectManager.updateProject(
-                req.params.id,
-                req.body
+                req
             );
             if (updated) {
                 res

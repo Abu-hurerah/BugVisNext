@@ -3,7 +3,7 @@ const userController = require('../App/User/UserController');
 const router = express.Router();
 
 // Retrieve all users
-router.get('/', userController.getAllUsers);
+router.get('/:role', userController.getAllUsers);
 
 // Retrieve a user by name
 router.get('/name/:name', userController.getUsersByName);

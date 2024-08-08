@@ -3,30 +3,28 @@ const { Project } = require("../models");
 const { Bug } = require("../models")
 const Sequelize = require("sequelize");
 const { Op } = require('sequelize');
-
+const {ProjectAssignment} = require("../models")
 class ProjectHandler {
   static async findAllProjects(user_id, sortOrder = 'ASC', limit = 10, offset = 0, searchterm = '') {
-    const whereClause = {
-      [Sequelize.Op.or]: [
-        { manager_id: user_id },
-        Sequelize.where(Sequelize.fn('JSON_CONTAINS', Sequelize.col('qa_ids'), Sequelize.literal(`"${user_id}"`)), '>', 0),
-        Sequelize.where(Sequelize.fn('JSON_CONTAINS', Sequelize.col('dev_ids'), Sequelize.literal(`"${user_id}"`)), '>', 0)
-      ]
-    };
-  
-    if (searchterm) {
-      whereClause.name = { [Sequelize.Op.like]: `%${searchterm}%` };
-    }
-  
     const projects = await Project.findAndCountAll({
-      where: whereClause,
-      order: [["name", sortOrder]],
+      include: [{
+        model: ProjectAssignment,
+        where: {
+          user_id: user_id
+        },
+      }],
+      where: searchterm ? {
+        name: { [Op.like]: `%${searchterm}%` }
+      } : {},
+      order: [['name', sortOrder]],
       limit: limit,
       offset: offset,
-    });  
+      distinct: true // This ensures count is accurate by considering distinct project IDs
+    });
+
     return projects;
   }
-  
+
 
 
 
@@ -39,7 +37,7 @@ class ProjectHandler {
       const totalBugs = await Bug.count({
         where: { project_id: id }
       });
-  
+
       // Count bugs that are either completed or resolved
       const completedOrResolvedBugs = await Bug.count({
         where: {
@@ -49,7 +47,7 @@ class ProjectHandler {
           }
         }
       });
-  
+
       return {
         totalBugs,
         completedOrResolvedBugs
@@ -99,16 +97,14 @@ class ProjectHandler {
   static async createProject(data) {
     try {
       console.log("Creating project with data:", data);
-
-      // Ensure qa_ids and dev_ids are arrays if provided
-      if (data.qa_ids && !Array.isArray(data.qa_ids)) {
-        data.qa_ids = [];
-      }
-      if (data.dev_ids && !Array.isArray(data.dev_ids)) {
-        data.dev_ids = [];
-      }
-
       const project = await Project.create(data);
+      console.log("Created Projected ID: ", project.dataValues.project_id)
+      const Assigmentdata = {
+        project_id : project.dataValues.project_id,
+        user_id: data.manager_id
+      }
+      ProjectAssignment.create(Assigmentdata)
+
       console.log("Project created successfully:", project);
       return project;  // Return the created project
     } catch (error) {
@@ -118,16 +114,16 @@ class ProjectHandler {
   }
 
 
-  static async updateProject(id, data) {
-    // Ensure qa_ids and dev_ids are arrays if provided
-    if (data.qa_ids && !Array.isArray(data.qa_ids)) {
-      data.qa_ids = [];
-    }
-    if (data.dev_ids && !Array.isArray(data.dev_ids)) {
-      data.dev_ids = [];
-    }
-    return Project.update(data, { where: { project_id: id } });
+  static async updateProject(data) {      
+      console.log("Handler")
+      const project = await ProjectAssignment.create(data);
+      console.log("Project Assignment created successfully:", project);
+      return project
   }
+  
+  
+
+
 
   static async deleteProject(id) {
     return Project.destroy({ where: { project_id: id } });

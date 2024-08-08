@@ -103,10 +103,10 @@ class ProjectManager {
       }
     }
   }
-  static async updateProject(id, data) {
-    ProjectUtility.validateProjectId(id);
-    ProjectUtility.validateProjectData(data);
-    return await ProjectHandler.updateProject(id, data);
+  static async updateProject(req) {
+    const ProjectData = req.body
+    console.log("Project Assignment Data: ",ProjectData)
+    return await ProjectHandler.updateProject(ProjectData);
   }
 
   static async deleteProject(id) {

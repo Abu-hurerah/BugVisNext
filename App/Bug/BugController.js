@@ -102,7 +102,7 @@ class BugController {
 
   static async createBug(req, res) {
     try {
-      const newBug = await BugManager.createBug(req.body);
+      const newBug = await BugManager.createBug(req);
       res.status(ErrorCodes.SUCCESS).json(newBug);
     } catch (error) {
       res.status(ErrorCodes.BAD_REQUEST).send({

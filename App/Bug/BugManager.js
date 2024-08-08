@@ -52,9 +52,21 @@ class BugManager {
     return bug;
   }
 
-  static async createBug(data) {
-    BugUtility.validateBugData(data);
-    return await BugHandler.createBug(data);
+  static async createBug(req) {
+    console.log("Request body:", req.body);
+    // Extract the authorization header
+    const authHeader = req.headers.authorization;
+    console.log("Authorization header:", authHeader);
+
+    // Extract the user ID from the token
+    const reported_by = await Token.getIdFromToken(authHeader);
+    console.log("Manager ID from token:", reported_by);
+
+    // Set the user_id into req.body.project_id
+    req.body.reported_by = reported_by;
+    console.log("Request body after adding manager_id:", req.body);
+
+    return await BugHandler.createBug(req.body);
   }
   static async findBugsByName(req, page = 1, limit = 6) {
     const authHeader = req.headers.authorization;

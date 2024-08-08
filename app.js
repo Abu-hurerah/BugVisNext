@@ -7,7 +7,6 @@ const cors = require('cors');
 // Routes
 const UserRouter = require('./router/UserRoute');
 const ProjectRoute = require('./router/ProjectRoute');
-const ProjectAssignRoute = require('./router/ProjectAssignRoute');
 const BugRoute = require('./router/BugRoute');
 
 // Middleware to parse body of HTTP requests
@@ -20,7 +19,7 @@ app.use(cors({
 }));
 
 // Database synchronization
-sequelize.sync()
+sequelize.sync() // Be cautious with this in production environments
     .then(() => {
         console.log("Database synchronized");
     })
@@ -31,7 +30,6 @@ sequelize.sync()
 // Route handlers
 app.use("/users", UserRouter);
 app.use("/projects", ProjectRoute); // Changed to plural to follow RESTful practices
-app.use("/projectAssign", ProjectAssignRoute); // Changed to hyphenated and more descriptive
 app.use("/bugs", BugRoute); // Changed to lowercase and plural for consistency
 
 // Catch 404 and forward to error handler

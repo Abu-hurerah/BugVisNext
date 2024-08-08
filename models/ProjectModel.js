@@ -21,16 +21,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
-    qa_ids: {
-      type: DataTypes.JSON,
-      allowNull: true,
-      defaultValue: []
-    },
-    dev_ids: {
-      type: DataTypes.JSON,
-      allowNull: true,
-      defaultValue: []
-    }
   }, {
     tableName: 'Projects',
     timestamps: false

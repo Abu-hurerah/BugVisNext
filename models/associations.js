@@ -18,6 +18,9 @@ Bug.belongsTo(User, { as: 'Reporter', foreignKey: 'reported_by' });
 User.hasMany(Bug, { as: 'AssignedBugs', foreignKey: 'assigned_to' });
 Bug.belongsTo(User, { as: 'Assignee', foreignKey: 'assigned_to' });
 
+Project.hasMany(ProjectAssignment, { foreignKey: 'project_id', as: 'ProjectAssignments' });
+ProjectAssignment.belongsTo(Project, { foreignKey: 'project_id' });
+
 module.exports = {
     User,
     Project,
