@@ -1,7 +1,10 @@
 const jsonwebtoken = require("jsonwebtoken");
-const { AUTH_SECRET_KEY, AUTH_EXPIRE_TIME } = require("../config/AuthKeys");
-const { ErrorCodes, ErrorMessages, AuthError } = require("../Constants");
+const { AUTH_SECRET_KEY, AUTH_EXPIRE_TIME, TOKEN_TYPE } = require("../config/AuthKeys");
+const { ErrorCodes, AuthError, ErrorMessages, } = require("../constants");
+const Exception = require("./Exception");
+
 class Token {
+
   static getLoginToken(user) {
     return jsonwebtoken.sign(
       {
@@ -32,40 +35,26 @@ class Token {
     try {
       return jsonwebtoken.verify(token, AUTH_SECRET_KEY);
     } catch (err) {
-      console.error(
-        `verifyToken:: Could not verify the token. token:: ${token} secretKey:: ${AUTH_SECRET_KEY}`,
-        err
-      );
-      return false;
+      throw new Exception(ErrorCodes.INVALID_TOKEN, ErrorMessages.MESSAGES.CANNOT_FULFILL_THE_REQUEST);
     }
   }
 
   static async getIdFromToken(header) {
     if (!header) {
-      throw {
-        errorCode: ErrorCodes.UNAUTHORIZED,
-        message: AuthError.MESSAGES.CANNOT_FULFILL_THE_REQUEST,
-      };
+      throw new Exception(ErrorCodes.UNAUTHORIZED, AuthError.MESSAGES.CANNOT_FULFILL_THE_REQUEST);
     }
-
     const parts = header.split(" ");
-    if (parts.length !== 2 || parts[0] !== "Bearer") {
-      throw {
-        errorCode: ErrorCodes.UNAUTHORIZED,
-        message: AuthError.MESSAGES.CANNOT_FULFILL_THE_REQUEST,
-      };
+    if (parts.length !== 2 || parts[0] !== TOKEN_TYPE) {
+      throw new Exception(ErrorCodes.UNAUTHORIZED, AuthError.MESSAGES.CANNOT_FULFILL_THE_REQUEST);
     }
-
     try {
       const token = parts[1];
-      const decoded = jsonwebtoken.verify(token, AUTH_SECRET_KEY); // Replace 'secret' with your actual JWT secret
-      return decoded.id;
+      const decoded = jsonwebtoken.verify(token, AUTH_SECRET_KEY);
+      return decoded;
     } catch (error) {
       console.error(error);
-      throw {
-        errorCode: ErrorCodes.UNAUTHORIZED,
-        message: AuthError.MESSAGES.INVALID_AUTHENTICATION_TOKEN,
-      };
+      throw new Exception(ErrorCodes.UNAUTHORIZED, AuthError.MESSAGES.INVALID_AUTHENTICATION_TOKEN,
+      );
     }
   }
 }
